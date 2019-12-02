@@ -1,6 +1,6 @@
 import falcon
 from falcon import testing
-import msgpack
+import json
 import pytest
 from winecrypt.app import api
 
@@ -11,17 +11,23 @@ def client():
 
 
 def test_list_wines(client):
+    # arrange
     doc = {
         "wines": [
-          {
-              "name": "Some Fancy Wine"
-          }
+            {
+              "name": "Kevins Fancy Red"
+            },
+            {
+                "name": "Kevins Fancy White"
+            }
         ]
     }
 
+    # act
     response = client.simulate_get("/wines")
+    # result_doc = msgpack.unpackb(response.content, raw=False)
+    result_doc = json.loads(response.content)
 
-    result_doc = msgpack.unpackb(response.content, raw=False)
-
+    # assert
     assert result_doc == doc
     assert response.status == falcon.HTTP_200

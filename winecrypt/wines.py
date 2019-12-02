@@ -22,6 +22,10 @@ class Wines(object):
 
         }
 
+        # old example used JSON -- now we're using MSGPACK instead
         resp.body = json.dumps(doc, ensure_ascii=False)
-
         resp.status = falcon.HTTP_200
+
+        # resp.data = msgpack.packb(doc, use_bin_type=True)
+        # resp.content_type = falcon.MEDIA_MSGPACK
+        # resp.status = falcon.HTTP_200
